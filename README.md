@@ -17,8 +17,9 @@ Santri Koding - Al Quran API
 
 ## Endpoint API
 
-- get a list of surah: http://localhost:3000/api/v1/surah
+- Get a list of surah: http://localhost:3000/api/v1/surah
 - Get Ayahs by the number of Surah: https://localhost:3000/surah/{number}
+- Search: https://localhost:3000/search?q=Baqarah
 
 ## Contributing Code
 

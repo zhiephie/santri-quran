@@ -20,6 +20,7 @@ func setupRoutes(app *fiber.App) {
 
 	v1.Get("/surah", quran.GetSurahs)
 	v1.Get("/surah/:id", quran.GetSurah)
+	v1.Get("/search", quran.SearchSurah)
 }
 
 func initDatabase() {

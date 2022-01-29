@@ -36,6 +36,17 @@ type Surah struct {
 		HizbQuarter int    `json:"hizb_quarter"`
 		Sajda       int    `json:"sajda"`
 	} `json:"ayat"`
+
+	Prev Prev `json:"prev"`
+	Next Next `json:"next"`
+}
+
+type Next struct {
+	Quran
+}
+
+type Prev struct {
+	Quran
 }
 
 func GetSurahs(c *fiber.Ctx) error {
@@ -55,6 +66,26 @@ func GetSurah(c *fiber.Ctx) error {
 	var result = Surah{}
 	db.Raw("SELECT * FROM info_surah WHERE number = ?", id).Scan(&result.Quran)
 	db.Raw("SELECT * FROM quran_id WHERE surah_id = ?", id).Scan(&result.Ayat)
+	if id == "1" {
+		result.Prev.Quran = result.Quran
+	} else {
+		prev := result.Quran.Number - 1
+		db.Raw("SELECT * FROM info_surah WHERE number = ?", prev).Scan(&result.Prev.Quran)
+	}
+	next := result.Quran.Number + 1
+	db.Raw("SELECT * FROM info_surah WHERE number = ?", next).Scan(&result.Next.Quran)
+
+	return c.JSON(&fiber.Map{
+		"success": true,
+		"data":    result,
+	})
+}
+
+func SearchSurah(c *fiber.Ctx) error {
+	q := c.Query("q")
+	db := database.DBConn
+	var result []Quran
+	db.Raw("SELECT * FROM info_surah WHERE name LIKE ? ", "%"+q+"%").Scan(&result)
 
 	return c.JSON(&fiber.Map{
 		"success": true,
