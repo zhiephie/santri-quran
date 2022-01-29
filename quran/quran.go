@@ -29,6 +29,7 @@ type Surah struct {
 		IndoText    string `json:"indo_text"`
 		EnText      string `json:"en_text"`
 		ReadText    string `json:"read_text"`
+		Audio       string `json:"audio"`
 		Juz         int    `json:"juz"`
 		Manzil      int    `json:"manzil"`
 		Page        int    `json:"page"`
